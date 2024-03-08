@@ -48,8 +48,18 @@ async def get_token(user_code : user_code):
     response = await get_access_token(user_code.code)
     print(response , response['access_token'])
 
+
     if 'access_token' in response:
-        return {'access_token' : response['access_token']}
+        user_information = await get_user_information(response['access_token'])
+        print(user_information)
+        data = {
+            'access_token' : response['access_token'],
+            'usernamee' : user_information['login'],
+            'avatar_url' : user_information['avatar_url'],
+            'followers' : user_information['followers'],
+            'following' : user_information['following']
+        }
+        return data
     else:
         return{"Error" : "User authentication failed! Try again"}
 
@@ -63,4 +73,14 @@ async def get_access_token(code : str):
     headers = {'Accept' : 'application/json'}
     async with httpx.AsyncClient() as client:
         response = await client.post(url = "https://github.com/login/oauth/access_token" , params = params , headers = headers)
+        return response.json()
+
+
+async def get_user_information(access_token):
+    headers = {
+        'Accept' : 'application/json',
+        'Authorization' : f'Bearer {access_token}'
+    }
+    async with httpx.AsyncClient() as client:
+        response = await client.get('https://api.github.com/user' , headers=headers)
         return response.json()
