@@ -1,14 +1,19 @@
 'use client'
 
-import { useEffect } from "react";
-import { useParams } from "next/navigation";
-import queryString from "query-string";
 import { useSearchParams } from "next/navigation";
+
+import { sendAuthCode } from "../lib/data";
 
 export default function Page(){
 
-    const router = useSearchParams()
-    console.log(router.get('code'))
+    const searchParams = useSearchParams()
+    const code = searchParams.get('code')
+    
+    if (code != null){
+      const jwtToken = sendAuthCode(code)
+    }
+    
+    console.log(code)
 
 
     return (

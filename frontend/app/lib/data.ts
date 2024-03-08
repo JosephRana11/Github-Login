@@ -6,6 +6,7 @@ import queryString from 'query-string';
 
 import { useRouter } from 'next/router';
 
+import { useSearchParams } from 'next/navigation';
 
 export async function requestUserAuth(){
  console.log("Requesting User Authorization")
@@ -15,4 +16,7 @@ export async function requestUserAuth(){
 
 }
 
+export async function sendAuthCode(code : string) {
+    console.log(`Sending code to server : ${code}`)
+}
 
