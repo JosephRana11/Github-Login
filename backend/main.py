@@ -57,7 +57,8 @@ async def get_token(user_code : user_code):
             'usernamee' : user_information['login'],
             'avatar_url' : user_information['avatar_url'],
             'followers' : user_information['followers'],
-            'following' : user_information['following']
+            'following' : user_information['following'],
+            'state' : 'authorized'
         }
         return data
     else:

@@ -13,6 +13,9 @@ export default function Home() {
 
       if (code !== null) {
         const data = await callTokenApi(code);
+        if (data['state'] === 'authorized'){
+          window.location.replace('http://localhost:3000/user')
+        }
         console.log(data);
       }
     }
