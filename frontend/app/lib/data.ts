@@ -9,10 +9,12 @@ import { useRouter } from 'next/router';
 import { useSearchParams } from 'next/navigation';
 
 export async function requestUserAuth(){
- console.log("Requesting User Authorization")
- 
- const link = `https://github.com/login/oauth/authorize?client_id=${client_id}&response_type=code`;
- window.location.assign(link);
+  
+   await fetch('http://127.0.0.1:8000/api/login' , {
+    headers : {
+        referrer : ""
+    }
+   })
 
 }
 

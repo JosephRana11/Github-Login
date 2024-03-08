@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 
-import { sendAuthCode } from "../lib/data";
+import { sendAuthCode } from "../../lib/data";
 
 export default function Page(){
 
