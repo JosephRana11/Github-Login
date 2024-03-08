@@ -8,13 +8,6 @@ export default function Page(){
 
     const searchParams = useSearchParams()
     const code = searchParams.get('code')
-    
-    if (code != null){
-      const jwtToken = sendAuthCode(code)
-    }
-    
-    console.log(code)
-
 
     return (
         <div className="h-screen flex flex-col items-center justify-center">

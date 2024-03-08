@@ -1,7 +1,5 @@
 'use client'
 
-import {requestUserAuth} from '@/app/lib/data'
-
 export default function button() {
 
   async function callLogin(){

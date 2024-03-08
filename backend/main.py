@@ -2,10 +2,10 @@ from fastapi import FastAPI
 from fastapi.responses import RedirectResponse 
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-
+import httpx
 
 client_id = "56641010b134453af657"
-client_secret = "a3095047c24243cb6d15928e3d2b9a0ba77f5238"
+client_secret = "5c008c46390bf0d75563ac9155630f787a4e6db6"
 
 redirect_uri = "http://localhost:3000/auth/callback"
 
@@ -41,6 +41,26 @@ def redirect_login():
 
 
 @app.post("/api/token")
-def get_token(user_code : user_code):
-    print(user_code.code)
-    return {"Required" : "code  "}
+async def get_token(user_code : user_code):
+    print("Incoming request ")
+    print(f"USER AUTHORIATION CODE {user_code.code}")
+    
+    response = await get_access_token(user_code.code)
+    print(response , response['access_token'])
+
+    if 'access_token' in response:
+        return {'access_token' : response['access_token']}
+    else:
+        return{"Error" : "User authentication failed! Try again"}
+
+
+async def get_access_token(code : str):
+    params = {
+        'client_id' : client_id,
+        'client_secret' : client_secret , 
+        'code' : code
+    }
+    headers = {'Accept' : 'application/json'}
+    async with httpx.AsyncClient() as client:
+        response = await client.post(url = "https://github.com/login/oauth/access_token" , params = params , headers = headers)
+        return response.json()
