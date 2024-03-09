@@ -1,5 +1,5 @@
-from fastapi import FastAPI
-from fastapi.responses import RedirectResponse 
+from fastapi import FastAPI , Response
+from fastapi.responses import RedirectResponse , JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from views.generic import create_new_user , query_user_data , check_user_eists
@@ -71,10 +71,12 @@ async def get_token(user_code : user_code):
          else:
             print("User Account exists in the Database")
          user_account = query_user_data(data['username'])
-         print(user_account)
+         #print(user_account)
          encoded_token = encrypt_data(user_account['id'], user_account['username'])
          print(encoded_token)
-         return {'state':'authorized' , 'jwt' : encoded_token}
+         response = JSONResponse(content={"state":"authorized"})
+         response.set_cookie(key="JWT" , value=encoded_token)
+         return response
     else:
         return{"Error" : "User authentication failed! Try again"}
 
