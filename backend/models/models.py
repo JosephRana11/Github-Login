@@ -23,7 +23,7 @@ class User(Base):
 
     def dict(self):
         return {
-            "id" : id ,
+            "id" : self.id ,
             "created" : self.created,
             "username" : self.username , 
             "name" : self.name , 

@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.responses import RedirectResponse 
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from views.generic import create_new_user , query_user
 import httpx
 
 client_id = "56641010b134453af657"
@@ -53,14 +54,16 @@ async def get_token(user_code : user_code):
         user_information = await get_user_information(response['access_token'])
         print(user_information)
         data = {
-            'access_token' : response['access_token'],
-            'usernamee' : user_information['login'],
+            'username' : user_information['login'],
+            'name' : user_information['name'],
             'avatar_url' : user_information['avatar_url'],
             'followers' : user_information['followers'],
             'following' : user_information['following'],
-            'state' : 'authorized'
+            'public_repos' : user_information['public_repos']
         }
-        return data
+        create_new_user(data)
+        print(data)
+        return {'state':'authorized'}
     else:
         return{"Error" : "User authentication failed! Try again"}
 
