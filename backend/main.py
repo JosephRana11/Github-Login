@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.responses import RedirectResponse 
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from views.generic import create_new_user , query_user
+from views.generic import create_new_user , query_user_data , check_user_eists
 import httpx
 
 client_id = "56641010b134453af657"
@@ -61,8 +61,12 @@ async def get_token(user_code : user_code):
             'following' : user_information['following'],
             'public_repos' : user_information['public_repos']
         }
-        create_new_user(data)
-        print(data)
+        user_exists = check_user_eists(data['username'])
+        print(user_exists)
+        if user_exists == False:
+          create_new_user(data)
+        else:
+            print("User Account exists in the Database")
         return {'state':'authorized'}
     else:
         return{"Error" : "User authentication failed! Try again"}
