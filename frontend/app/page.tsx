@@ -9,6 +9,7 @@ export default function Home() {
           <code className="font-mono font-bold">OAuth</code>
         </p>
         </div>
+        <a href="/login">Login</a>
     </main>
   );
 }
