@@ -17,10 +17,10 @@ def create_new_user(obj):
     print("User Created")
 
 
-def query_user_data(id):
-    with sessionmaker() as session:
-        user = session.query(User).filter_by(id = id).first()
-        return user
+def query_user_data(username):
+    with session_maker() as session:
+        user = session.query(User).filter_by(username = username).first()
+        return user.dict()
 
 
 def check_user_eists(username):
