@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import axios from "axios";
+import { setTokenCookie } from "./data";
 
 export default function Home() {
   useEffect(() => {
@@ -12,13 +13,15 @@ export default function Home() {
       console.log(code);
 
       if (code !== null) {
-        const data = await callTokenApi(code);
-        if (data['state'] === 'authorized'){
+        const response = await callTokenApi(code);
+        if (response && response.data != null && response.data['state'] === 'authorized'){
+          console.log(response.data)
+          await setTokenCookie(response.data['token'])
           window.location.replace('http://localhost:3000/user')
         }
-        console.log(data);
       }
     }
+
 
     run();
   }, []);
@@ -27,7 +30,7 @@ export default function Home() {
     try {
       const response = await axios.post('http://127.0.0.1:8000/api/token', { code });
       console.log(response.data);
-      return response.data;
+      return response
     } catch (error) {
       console.error(error);
     }

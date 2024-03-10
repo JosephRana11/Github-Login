@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from views.generic import create_new_user , query_user_data , check_user_eists
 import httpx
 from auth.main import encrypt_data , decrypt_data
-
+import json
 
 client_id = "56641010b134453af657"
 client_secret = "5c008c46390bf0d75563ac9155630f787a4e6db6"
@@ -74,8 +74,10 @@ async def get_token(user_code : user_code):
          #print(user_account)
          encoded_token = encrypt_data(user_account['id'], user_account['username'])
          print(encoded_token)
-         response = JSONResponse(content={"state":"authorized"})
+         response = JSONResponse(content={"state":"authorized" , "token":encoded_token})
          response.set_cookie(key="JWT" , value=encoded_token)
+         print(response.body)
+         print(response.headers)
          return response
     else:
         return{"Error" : "User authentication failed! Try again"}
