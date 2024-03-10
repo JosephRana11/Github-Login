@@ -60,6 +60,7 @@ async def get_token(user_code : user_code):
     if 'access_token' in response:
         user_information = await get_user_information(response['access_token'])
         if 'login' in user_information:
+         print(user_information)
          #print(user_information['login'])
          data = {
             'username' : user_information['login'],
@@ -76,7 +77,7 @@ async def get_token(user_code : user_code):
          else:
             print("User Account exists in the Database")
          user_account = query_user_data(data['username'])
-         #print(user_account)
+         print(user_account)
          encoded_token = encrypt_data(user_account['id'], user_account['username'])
          #print(encoded_token)
          response = JSONResponse(content={"state":"authorized" , "token":encoded_token})
@@ -95,6 +96,7 @@ async def get_user_profile(token_model : token_model ):
         print(decoded_token['userid'])
         print(decoded_token['username'])
         data = query_user_data(decoded_token['username'])
+        print(data)
         return data
     else:
         return {'status' : 'authentication failed'}

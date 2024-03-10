@@ -6,14 +6,31 @@ import { sendAuthCode } from "../../lib/data";
 import { useEffect } from "react";
 import axios from "axios";
 import { retrieveToken } from "../auth/callback/data";
+import { useState } from "react";
+import Card from "@/app/components/profile-card";
+import { userInfo } from "os";
+
 
 export default function Page(){
+
+  const [ data , updateData ] = useState({"username" : null , "avatar_url" : null , "following":null , "followers" : null , "public_repo" :null})
 
     useEffect(()=>{
      async function run(){
       const userData = await fetchUserData()
       console.log(userData)
       console.log(userData.status)
+
+      updateData({
+       username : userData['username'],
+       name : userData['name'],
+       avatar_url : userData['avatar_url'],
+       following : userData['following'],
+       followers : userData['followers'],
+       public_repos : userData["public_repos"]
+      })
+
+
      }
 
      run()
@@ -32,15 +49,6 @@ export default function Page(){
     }
 
     return (
-        <div className="h-screen flex flex-col items-center justify-center">
-          <div className="flex flex-col items-center mb-40">
-            <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-              User Profile Page
-            </h1>
-            <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
-              You are now Sucessfully Logged in!
-            </p>
-          </div>
-        </div>
-      );
+              <Card  data={data} />
+      )
 }

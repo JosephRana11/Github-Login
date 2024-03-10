@@ -29,5 +29,6 @@ class User(Base):
             "name" : self.name , 
             "avatar_url" : self.avatar_url , 
             "followers" : self.followers,
+            "following" : self.following,
             "public_repos" : self.public_repos
         }
