@@ -5,7 +5,8 @@ from pydantic import BaseModel
 from views.generic import create_new_user , query_user_data , check_user_eists
 import httpx
 from auth.main import encrypt_data , decrypt_data
-import json
+from fastapi import Cookie
+from fastapi import Request
 
 client_id = "56641010b134453af657"
 client_secret = "5c008c46390bf0d75563ac9155630f787a4e6db6"
@@ -13,28 +14,32 @@ client_secret = "5c008c46390bf0d75563ac9155630f787a4e6db6"
 redirect_uri = "http://localhost:3000/auth/callback"
 
 app = FastAPI()
-
 origins = [
-    "http://localhost.tiangolo.com",
-    "https://localhost.tiangolo.com",
+    "http://localhost:3000",
     "http://localhost",
     "http://localhost:8080",
+    'http://localhost:3000/..',
     'http://localhost:3000/login',
-    'localhost:3000/login',
-    'localhost:3000'
+    'http://localhost:3000/user',
+    'http://localhost:3000/auth/callback',
+    'http://localhost:3000/auth/callback/',
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"], # include additional methods as per the application demand
+    allow_headers=["Content-Type","Set-Cookie" , "Cookie"],    
 )
+
 
 
 class user_code(BaseModel):
     code : str
+
+class token_model(BaseModel):
+    token : str
 
 
 @app.get("/api/login")
@@ -55,7 +60,7 @@ async def get_token(user_code : user_code):
     if 'access_token' in response:
         user_information = await get_user_information(response['access_token'])
         if 'login' in user_information:
-         print(user_information['login'])
+         #print(user_information['login'])
          data = {
             'username' : user_information['login'],
             'name' : user_information['name'],
@@ -73,14 +78,27 @@ async def get_token(user_code : user_code):
          user_account = query_user_data(data['username'])
          #print(user_account)
          encoded_token = encrypt_data(user_account['id'], user_account['username'])
-         print(encoded_token)
+         #print(encoded_token)
          response = JSONResponse(content={"state":"authorized" , "token":encoded_token})
-         response.set_cookie(key="JWT" , value=encoded_token)
-         print(response.body)
+         response.set_cookie(key="auth_token" , value=encoded_token ,secure=False ,  samesite='lax')
+         print(f"Response Body : {response.body}")
          print(response.headers)
          return response
     else:
         return{"Error" : "User authentication failed! Try again"}
+
+
+@app.post('/api/user')
+async def get_user_profile(token_model : token_model ):
+    if token_model.token is not None:
+        decoded_token = decrypt_data(token_model.token)
+        print(decoded_token['userid'])
+        print(decoded_token['username'])
+        data = query_user_data(decoded_token['username'])
+        return data
+    else:
+        return {'status' : 'authentication failed'}
+
 
 
 async def get_access_token(code : str):

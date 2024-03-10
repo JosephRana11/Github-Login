@@ -3,11 +3,33 @@
 import { useSearchParams } from "next/navigation";
 
 import { sendAuthCode } from "../../lib/data";
+import { useEffect } from "react";
+import axios from "axios";
+import { retrieveToken } from "../auth/callback/data";
 
 export default function Page(){
 
-    const searchParams = useSearchParams()
-    const code = searchParams.get('code')
+    useEffect(()=>{
+     async function run(){
+      const userData = await fetchUserData()
+      console.log(userData)
+      console.log(userData.status)
+     }
+
+     run()
+
+    }, [])
+
+    async function fetchUserData(){
+      try {
+        const cookie_token = await retrieveToken()
+        const token = cookie_token?.value
+        const response = await axios.post('http://127.0.0.1:8000/api/user' ,{ token })
+        return response.data
+      } catch(error) {
+        console.log(error)
+      }
+    }
 
     return (
         <div className="h-screen flex flex-col items-center justify-center">
