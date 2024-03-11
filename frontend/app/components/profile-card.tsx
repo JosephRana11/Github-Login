@@ -1,4 +1,6 @@
 import React from 'react';
+import LogoutBtn from './logout-button';  
+
 
 export default function Card( {data} ) {
   return (
@@ -46,7 +48,11 @@ export default function Card( {data} ) {
               <strong className="text-black dark:text-white">{data.public_repos}</strong> Public Repository
             </span>
           </div>
-        
+          </div>
+          <div className='hidden'>
+          <button className="flex-1 rounded-full bg-blue-600 dark:bg-blue-800 text-white dark:text-white antialiased font-bold hover:bg-blue-800 dark:hover:bg-blue-900 px-4 py-2">
+              Logout
+            </button>  
           </div>
         </div>
       </div>

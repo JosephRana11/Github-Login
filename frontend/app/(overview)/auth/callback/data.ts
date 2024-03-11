@@ -14,3 +14,10 @@ export async function setTokenCookie(token:string){
 export async function retrieveToken() {
     return cookies().get('token')
 }
+
+
+export async function deleteToken(){
+    if (cookies().has('token')){
+        cookies().delete('token')
+    }
+}   

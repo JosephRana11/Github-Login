@@ -60,7 +60,7 @@ async def get_token(user_code : user_code):
     if 'access_token' in response:
         user_information = await get_user_information(response['access_token'])
         if 'login' in user_information:
-         print(user_information)
+         print(user_information )
          #print(user_information['login'])
          data = {
             'username' : user_information['login'],

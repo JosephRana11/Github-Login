@@ -1,15 +1,25 @@
+'use client'
+
 import Image from "next/image";
+import { useEffect } from "react";
 
 export default function Home() {
+
+  useEffect(()=>{
+    function redirectLogin(){
+      window.location.replace("http://localhost:3000/login")
+    }
+    redirectLogin()
+  } ,[])
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Github Auth WebApp&nbsp;
-          <code className="font-mono font-bold">OAuth</code>
-        </p>
-        </div>
-        <a href="/login">Login</a>
-    </main>
+    <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl p-6 center ">
+    <span className="block">
+        Redirecting your
+        <span className="text-transparent bg-clip-text bg-gradient-to-tr to-cyan-500 from-blue-600">
+            Request
+        </span>
+    </span>
+</h1>
   );
 }

@@ -9,11 +9,12 @@ import { retrieveToken } from "../auth/callback/data";
 import { useState } from "react";
 import Card from "@/app/components/profile-card";
 import { userInfo } from "os";
-
+import LogoutBtn from "@/app/components/logout-button";
+import MyComponent from "@/app/components/user-title";
 
 export default function Page(){
 
-  const [ data , updateData ] = useState({"username" : null , "avatar_url" : null , "following":null , "followers" : null , "public_repo" :null})
+  const [ data , updateData ] = useState({"username" : null , "name" : null, "avatar_url" : null , "following":null , "followers" : null , "public_repos" :null})
 
     useEffect(()=>{
      async function run(){
@@ -49,6 +50,9 @@ export default function Page(){
     }
 
     return (
-              <Card  data={data} />
+      <div>
+        <MyComponent />
+        <Card  data={data} />
+      </div>
       )
 }
