@@ -39,17 +39,17 @@ Install Python dependencies
   pip install -r requirments.txt
 ```
 
-Start the server inside frontend
+Start the server inside /frontend directory
 
 ```bash
   npm run dev
 
 ```
 
-Start the backend serer inside /backend
+Start the backend sevrer inside /backend directory
 
 ```bash
   uvicorn main:app -- reload
   
 ```
-Go to http://localhost:3000/
+Go to http://localhost:3000/ to get started!
