@@ -16,13 +16,6 @@ redirect_uri = "http://localhost:3000/auth/callback"
 app = FastAPI()
 origins = [
     "http://localhost:3000",
-    "http://localhost",
-    "http://localhost:8080",
-    'http://localhost:3000/..',
-    'http://localhost:3000/login',
-    'http://localhost:3000/user',
-    'http://localhost:3000/auth/callback',
-    'http://localhost:3000/auth/callback/',
 ]
 
 app.add_middleware(
