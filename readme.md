@@ -1,6 +1,6 @@
 
 
-# Github OAUTH LOGIN Webapp
+# Github OAUTH
 
 An Oauth application that uses Github authorization to fetch github profile data.
 
