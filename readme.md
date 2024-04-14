@@ -2,7 +2,7 @@
 
 # Github OAUTH LOGIN Webapp
 
-An Oauth application that uses Github authorization to fetch github profile information of the User.
+An Oauth application that uses Github authorization to fetch github profile data.
 
 
 
